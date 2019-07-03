@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE properties SYSTEM "http://java.sun.com/dtd/properties.dtd">
+<properties>
+    <comment>NWTIS konfiguracija</comment>
+    <entry key="tablica.brojRedaka">5</entry>
+    <entry key="datoteka.serijalizacije">poruke.txt</entry>
+    <entry key="port">8069</entry>
+    <entry key="server">localhost</entry>
+</properties>

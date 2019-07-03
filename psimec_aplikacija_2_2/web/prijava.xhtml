@@ -1,0 +1,121 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+    <f:view locale="#{lokalizacija.jezik}">
+        <f:metadata>
+            <f:event type="preRenderView" listener="#{obradaPrijave.setPrikazi()}"/>
+            <f:event type="preRenderView" listener="#{upravljanjeKorisnikom.dohvatiKorisnike()}"/>
+        </f:metadata>
+        <h:body>
+            <ui:composition template="./predlozak.xhtml">
+                <ui:define name="top">
+                    <div style="margin-left: 48%;">
+                        <h2><b>Prijava i registracija</b></h2>
+                    </div>
+                </ui:define>
+
+                <ui:define name="top">
+                    <div style="display: #{obradaPrijave.prikazi ? 'none' : 'block'}">
+                        <h:link value="#{p['izbornik.pocetna']}" outcome="korisnikPocetna.xhtml"/>
+                        <h:outputText value="          "/>
+                        <h:link value="#{p['izbornik.azuriranje']}" outcome="prijava.xhtml"/>
+                        <h:outputText value="          "/>
+                        <h:link value="#{p['izbornik.upravljanje']}" outcome="upravljanjeAerodromima.xhtml"/>
+                        <h:outputText value="          "/>
+                        <h:link value="#{p['izbornik.letovi']}" outcome="pregledLetova.xhtml"/>
+                        <h:outputText value="          "/>
+                        <h:link value="#{p['izbornik.odabraniletovi']}" outcome="pregledLetovaDvaAerodroma.xhtml"/>
+                        <h:outputText value="          "/>
+                        <h:link value="#{p['izbornik.dnevnik']}" outcome="dnevnik.xhtml"/>
+                        <h:outputText value="          "/>
+                        <h:link value="#{p['izbornik.mqtt']}" outcome="pregledMqtt.xhtml"/>
+                        <h:outputText value="          "/>
+                        <h:link value="#{p['izbornik.odjava']}" outcome="odjava.xhtml"/>
+                    </div>
+                    <div style="display:#{obradaPrijave.prikazi ? 'block' : 'none'}">
+                        <div style="margin-left: 48%;">
+                            <h2><b>#{p['prijava.naslov']}</b></h2>
+                        </div>
+
+
+                        <div style="margin-left: 90%;">
+                            <h:panelGrid columns="2">
+                                <h:graphicImage width="30" height="auto" value="#{p['prijava.slika.putanja']}" />
+                                <h:form>
+                                    <h:selectOneMenu value="#{lokalizacija.jezik}"  valueChangeListener="#{lokalizacija.odaberiJezik()}" onchange="submit()">
+                                        <f:selectItem itemValue="hr" itemLabel="#{p['prijava.jezik.hr']}" />
+                                        <f:selectItem itemValue="en" itemLabel="#{p['prijava.jezik.en']}" />
+                                    </h:selectOneMenu>
+                                </h:form>
+                            </h:panelGrid></div>
+                    </div>
+                </ui:define>
+
+
+                <ui:define name="content">
+                    <div class="login-page" style="margin-top: -8%">
+                        <div >
+                            <div class="form" >
+                                <h:form id="forma" class="login-form" style="display:#{obradaPrijave.prikazi ? 'block' : 'none'};">
+                                    <p:inputText value="#{obradaPrijave.korime}" id="korime"  p:placeholder="#{p['prijava.login.korime']}"/><br/>
+                                    <p:inputText type="password" value="#{obradaPrijave.lozinka}" id="lozinka" p:placeholder="#{p['prijava.login.lozinka']}"/><br/>
+                                    <p:commandButton class="button-login" update="forma :msgs korime lozinka" value="#{p['prijava.login.button']}"  action="#{obradaPrijave.prijava()}"/>
+                                    <br/><br/>
+                                </h:form><br/><br/>
+                                <h:form id="forma_registracija" style="display:#{obradaPrijave.prikazi ? 'block' : 'none'};">
+                                    <p:inputText value="#{obradaRegistracije.korime}" id="korime"  p:placeholder="#{p['prijava.regitracija.korime']}" /><br/>
+                                    <p:inputText type="password" value="#{obradaRegistracije.lozinka}" id="lozinka" p:placeholder="#{p['prijava.regitracija.lozinka']}"/><br/>
+                                    <p:inputText type="password" value="#{obradaRegistracije.ponovljenaLoznika}" id="ponovljena_lozinka" p:placeholder="#{p['prijava.regitracija.ponovljenalozinka']}"/><br/>
+                                    <p:inputText value="#{obradaRegistracije.ime}" id="ime" p:placeholder="#{p['prijava.regitracija.ime']}"/><br/>
+                                    <p:inputText value="#{obradaRegistracije.prezime}" id="prezime" p:placeholder="#{p['prijava.regitracija.prezime']}"/><br/>
+                                    <p:inputText value="#{obradaRegistracije.email}" id="email" p:placeholder="#{p['prijava.regitracija.email']}"/><br/>
+                                    <p:commandButton class="button-login" update="forma_registracija :msgs korime lozinka" value="#{p['prijava.regitracija.button']}"  action="#{obradaRegistracije.registracija()}"/>
+                                </h:form>
+                                <h:form id="forma_korisnici"  style="display: #{obradaPrijave.prikazi ? 'none' : 'block'}">
+                                    <p:inputText type="password" value="#{upravljanjeKorisnikom.unosLozinka}" id="lozinka" p:placeholder="#{p['prijava.azuriranjekorisnika.lozinka']}"/><br/>
+                                    <p:inputText type="password" value="#{upravljanjeKorisnikom.unosPonovljenaLoznika}" id="ponovljena_lozinka" p:placeholder="#{p['prijava.azuriranjekorisnika.ponovljenalozinka']}"/><br/>
+                                    <p:inputText value="#{upravljanjeKorisnikom.ime}" id="ime" p:placeholder="i#{p['prijava.azuriranjekorisnika.ime']}"/><br/>
+                                    <p:inputText value="#{upravljanjeKorisnikom.prezime}" id="prezime" p:placeholder="#{p['prijava.azuriranjekorisnika.prezime']}"/><br/>
+                                    <p:inputText value="#{upravljanjeKorisnikom.email}" id="email" p:placeholder="#{p['prijava.azuriranjekorisnika.email']}"/><br/>
+                                    <p:commandButton class="button-login" update="forma_korisnici :msgs" value="#{p['prijava.azuriranjekorisnika.button']}"  action="#{upravljanjeKorisnikom.azuriraj()}"/>
+                                    <br/><br/>
+                                </h:form>
+                            </div>
+                        </div>  
+                    </div>
+                    <p:growl id="msgs" showDetail="true" life="1750" />
+                    <div style="display: #{obradaPrijave.prikazi ? 'none' : 'block'}">
+                        <h:form id="korisnici">
+                            <p:dataTable var="korisnik" value="#{upravljanjeKorisnikom.korisnici}" paginator="true" rows="${upravljanjeKorisnikom.brojRedovaTablice}"
+                                         paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink}"
+                                         id="tablicaKorisnici" lazy="true" pageLinks="20" >
+                                <p:ajax event="filter" update=":msgs" />
+                                <p:column headerText="#{p['prijava.azuriranjekorisnika.tablica.korime']}">
+                                    <h:outputText value="#{korisnik.korime}" />
+                                </p:column>
+
+                                <p:column headerText="#{p['prijava.azuriranjekorisnika.tablica.ime']}">
+                                    <h:outputText value="#{korisnik.ime}" />
+                                </p:column>
+
+                                <p:column headerText="#{p['prijava.azuriranjekorisnika.tablica.prezime']}">
+                                    <h:outputText value="#{korisnik.prezime}" />
+                                </p:column>
+
+                                <p:column headerText="#{p['prijava.azuriranjekorisnika.tablica.email']}">
+                                    <h:outputText value="#{korisnik.email}" />
+                                </p:column>
+
+                            </p:dataTable>
+                        </h:form>
+                    </div>
+                </ui:define>
+            </ui:composition>
+        </h:body>
+    </f:view>
+</html>
+

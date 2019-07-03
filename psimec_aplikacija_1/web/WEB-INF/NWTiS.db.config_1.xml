@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE properties SYSTEM "http://java.sun.com/dtd/properties.dtd">
+<properties>
+    <comment>NWTIS konfiguracija</comment>
+    <entry key="server.database">jdbc:mysql://localhost/</entry>
+    <entry key="admin.username">nwtis_admin</entry>
+    <entry key="admin.password">nwtis_foi</entry>
+    <entry key="admin.database">mysql</entry>
+    <entry key="user.username">nwtis_g4</entry>
+    <entry key="user.password">g4_nwtis</entry>
+    <entry key="user.database">nwtis_psimec_bp_1</entry>
+    <entry key="jdbc.odbc">sun.jdbc.odbc.JdbcOdbcDriver</entry>
+    <entry key="jdbc.mysql">com.mysql.jdbc.Driver</entry>
+    <entry key="jdbc.derby">org.apache.derby.jdbc.ClientDriver</entry>
+    <entry key="port">8069</entry>
+    <entry key="maks.cekaca">10</entry>
+    <entry key="maks.dretvi">5</entry>
+    <entry key="preuzimanje.ciklus">45</entry>
+    <entry key="preuzimanje.pocetak">48</entry>
+    <entry key="preuzimanje.trajanje">2</entry>
+    <entry key="datoteka.dretve">nadzor.json</entry>
+    <entry key="LocationIQ.token">9940e70522b65e</entry>
+    <entry key="OpenWeatherMap.apikey">bd8a9d4e193872f3bfc7394c5b0827cf</entry>
+    <entry key="OpenSkyNetwork.korisnik">psimec</entry>
+    <entry key="OpenSkyNetwork.lozinka">7UKVLJ7a</entry>
+    <entry key="Mqtt.korisnik">psimec</entry>
+    <entry key="Mqtt.lozinka">7UKVLJ7a</entry>
+    <entry key="Mqtt.server">nwtis.foi.hr</entry>
+    <entry key="Mqtt.port">61613</entry>
+    <entry key="Mqtt.destinacija">/NWTiS/psimec</entry>
+    <entry key="izbornik.brojRedaka">2</entry>
+    <entry key="tablica.brojRedaka">5</entry>
+</properties>

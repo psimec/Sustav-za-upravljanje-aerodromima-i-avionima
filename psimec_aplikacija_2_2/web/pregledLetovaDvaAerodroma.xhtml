@@ -1,0 +1,130 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
+    <f:view locale="#{lokalizacija.jezik}">
+        <f:metadata>
+            <f:viewAction action="#{odjava.autentifikacija()}" />
+        </f:metadata>
+        <h:body>
+
+
+            <ui:composition template="./predlozak.xhtml">
+                <ui:define name="top">
+                    <h:link value="#{p['izbornik.pocetna']}" outcome="korisnikPocetna.xhtml"/>
+                    <h:outputText value="          "/>
+                    <h:link value="#{p['izbornik.azuriranje']}" outcome="prijava.xhtml"/>
+                    <h:outputText value="          "/>
+                    <h:link value="#{p['izbornik.upravljanje']}" outcome="upravljanjeAerodromima.xhtml"/>
+                    <h:outputText value="          "/>
+                    <h:link value="#{p['izbornik.letovi']}" outcome="pregledLetova.xhtml"/>
+                    <h:outputText value="          "/>
+                    <h:link value="#{p['izbornik.odabraniletovi']}" outcome="pregledLetovaDvaAerodroma.xhtml"/>
+                    <h:outputText value="          "/>
+                    <h:link value="#{p['izbornik.dnevnik']}" outcome="dnevnik.xhtml"/>
+                    <h:outputText value="          "/>
+                    <h:link value="#{p['izbornik.mqtt']}" outcome="pregledMqtt.xhtml"/>
+                    <h:outputText value="          "/>
+                    <h:link value="#{p['izbornik.odjava']}" outcome="odjava.xhtml"/>
+                </ui:define>
+
+                <ui:define name="content">
+
+                    <h:form id="forma">
+                        <div style="margin-left: 42%;"> 
+                            <h:panelGrid columns="2">
+                                <h:panelGroup>
+                                    <h:outputText value="#{p['pregledLetovaDvaAerodroma.polazisni']}" />
+                                    <h:selectOneListbox value="#{pregledLetovaDvaAerodroma.odabraniPolazisniAerodrom}" size="#{pregledLetovaDvaAerodroma.brojRedovaIzbornika}">
+                                        <f:selectItems value="#{pregledLetovaDvaAerodroma.aerodromi}"
+                                                       var="aerodrom"
+                                                       itemLabel="#{aerodrom.icao}, #{aerodrom.naziv}"
+                                                       itemValue="#{aerodrom.icao}"/>
+                                    </h:selectOneListbox><br/><br/><br/><br/>
+                                    <h:outputText value="#{p['pregledLetovaDvaAerodroma.odredisni']}" />
+                                    <h:selectOneListbox value="#{pregledLetovaDvaAerodroma.odabraniOdredisniAerodrom}" size="#{pregledLetovaDvaAerodroma.brojRedovaIzbornika}">
+                                        <f:selectItems value="#{pregledLetovaDvaAerodroma.aerodromi}"
+                                                       var="aerodrom"
+                                                       itemLabel="#{aerodrom.icao}, #{aerodrom.naziv}"
+                                                       itemValue="#{aerodrom.icao}"/>
+                                    </h:selectOneListbox><br/><br/><br/><br/>
+                                    <h:commandButton value="#{p['pregledLetovaDvaAerodroma.button.preuzmi']}"
+                                                     action="#{pregledLetovaDvaAerodroma.dohvatiLetove()}"
+                                                     id="dohvbatiLetove">
+                                        <f:ajax render="@all" execute="@all"/>
+                                    </h:commandButton>
+                                    <h:commandButton value="#{p['pregledLetovaDvaAerodroma.button.prikazi']}"
+                                                     action="#{pregledLetovaDvaAerodroma.prikaziAerodrome()}"
+                                                     id="prikaziAerodrome">
+                                        <f:ajax render="@all" execute="@all"/>
+                                    </h:commandButton>
+                                    <h:commandButton value="#{p['pregledLetovaDvaAerodroma.button.udaljenost']}"
+                                                     action="#{pregledLetovaDvaAerodroma.dohvatiUdaljenost()}"
+                                                     id="preuzmiUdaljenost">
+                                        <f:ajax render="@all" execute="@all"/>
+                                    </h:commandButton>
+                                    <c:choose>
+                                        <c:when test="#{pregledLetovaDvaAerodroma.udaljenost > -1}">
+                                            <h:outputText value="#{p['pregledLetovaDvaAerodroma.button.udaljenost.tekst']}: #{pregledLetovaDvaAerodroma.udaljenost}" />
+                                        </c:when>
+                                        <c:otherwise>
+                                            <h:outputText value=""/>
+                                        </c:otherwise>
+                                    </c:choose>
+                                </h:panelGroup><br/><br/>
+
+                            </h:panelGrid>
+                        </div> 
+                        <c:choose>
+                            <c:when test="#{pregledLetovaDvaAerodroma.letovi.size() > 0}">
+                                <p:dataTable var="let" value="#{pregledLetovaDvaAerodroma.letovi}" paginator="true" rows="${pregledLetovaDvaAerodroma.brojRedovaTablice}"
+                                             paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink}"
+                                             id="tablicaLetovi" lazy="true" pageLinks="20" >
+                                    <p:ajax event="filter" update=":msgs" />
+                                    <p:column headerText="#{p['pregledLetovaDvaAerodroma.tablica.icao24']}">
+                                        <h:outputText value="#{let.icao24}" />
+                                    </p:column>
+
+                                    <p:column headerText="#{p['pregledLetovaDvaAerodroma.tablica.polaziste']}">
+                                        <h:outputText value="#{let.estDepartureAirport}" />
+                                    </p:column>
+
+                                    <p:column headerText="#{p['pregledLetovaDvaAerodroma.tablica.odrediste']}">
+                                        <h:outputText value="#{let.estArrivalAirport}" />
+                                    </p:column>
+
+                                    <p:column headerText="#{p['pregledLetovaDvaAerodroma.tablica.prvi']}">
+                                        <h:outputText value="#{let.firstSeen * 1000}" >
+                                            <f:convertDateTime pattern="dd.MM.yyyy HH:mm:ss" />
+                                        </h:outputText>
+                                    </p:column>
+
+                                    <p:column headerText="#{p['pregledLetovaDvaAerodroma.tablica.zadnji']}">
+                                        <h:outputText value="#{let.lastSeen * 1000}" >
+                                            <f:convertDateTime pattern="dd.MM.yyyy HH:mm:ss" />
+                                        </h:outputText>
+                                    </p:column>
+
+                                </p:dataTable><br/><br/>
+                            </c:when>
+                            <c:otherwise>
+                                <h:outputText value=""/>
+                            </c:otherwise>
+                        </c:choose>
+                    </h:form>
+                    <p:gmap id="mapa" center="#{pregledLetovaDvaAerodroma.lat}, #{pregledLetovaDvaAerodroma.lon}" zoom="4" type="HYBRID" style="width:100%;height:400px" model="#{pregledLetovaDvaAerodroma.simpleModel}" /> 
+                    <p:messages id="msgs" showDetail="true" />
+                </ui:define>
+            </ui:composition>
+        </h:body>
+    </f:view>
+</html>

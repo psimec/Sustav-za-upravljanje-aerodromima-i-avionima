@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+    <f:view locale="#{lokalizacija.jezik}">
+        <f:metadata>
+            <f:viewAction action="#{odjava.autentifikacija()}" />
+        </f:metadata>
+        <h:body>
+
+            <ui:composition template="./predlozak.xhtml">
+                <ui:define name="top">
+                    <h:link value="#{p['izbornik.pocetna']}" outcome="korisnikPocetna.xhtml"/>
+                    <h:outputText value="          "/>
+                    <h:link value="#{p['izbornik.azuriranje']}" outcome="prijava.xhtml"/>
+                    <h:outputText value="          "/>
+                    <h:link value="#{p['izbornik.upravljanje']}" outcome="upravljanjeAerodromima.xhtml"/>
+                    <h:outputText value="          "/>
+                    <h:link value="#{p['izbornik.letovi']}" outcome="pregledLetova.xhtml"/>
+                    <h:outputText value="          "/>
+                    <h:link value="#{p['izbornik.odabraniletovi']}" outcome="pregledLetovaDvaAerodroma.xhtml"/>
+                    <h:outputText value="          "/>
+                    <h:link value="#{p['izbornik.dnevnik']}" outcome="dnevnik.xhtml"/>
+                    <h:outputText value="          "/>
+                    <h:link value="#{p['izbornik.mqtt']}" outcome="pregledMqtt.xhtml"/>
+                    <h:outputText value="          "/>
+                    <h:link value="#{p['izbornik.odjava']}" outcome="odjava.xhtml"/>
+                </ui:define>
+
+                <ui:define name="content">
+                    <h:form>
+                        <p:dataTable var="zapis" value="#{pregledDnevnika.zapisi}" paginator="true" rows="${pregledDnevnika.brojRedovaTablice}"
+                                     paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink}"
+                                     id="tablicaZapisi" lazy="true" pageLinks="20" resizableColumns="true">
+                            <p:ajax event="filter" update=":msgs" />
+                            <p:column headerText="#{p['dnevnik.id']}">
+                                <h:outputText value="#{zapis.id}" />
+                            </p:column>
+
+                            <p:column headerText="#{p['dnevnik.ipadresa']}">
+                                <h:outputText value="#{zapis.ipadresa}" />
+                            </p:column>
+
+                            <p:column headerText="#{p['dnevnik.korime']}">
+                                <h:outputText value="#{zapis.korime}" />
+                            </p:column>
+
+                            <p:column headerText="#{p['dnevnik.URL']}">
+                                <h:outputText value="#{zapis.url}" />
+                            </p:column>
+
+                            <p:column headerText="#{p['dnevnik.obrada']}">
+                                <h:outputText value="#{zapis.trajanje}" />
+                            </p:column>
+
+                            <p:column headerText="#{p['dnevnik.datum']}">
+                                <h:outputText value="#{zapis.stored}" >
+                                    <f:convertDateTime pattern="dd.MM.yyyy HH:mm:ss" />
+                                </h:outputText>
+                            </p:column>
+
+                        </p:dataTable>
+                    </h:form>
+                    <p:messages id="msgs" showDetail="true" />
+                </ui:define>
+            </ui:composition>
+
+        </h:body>
+    </f:view>
+</html>

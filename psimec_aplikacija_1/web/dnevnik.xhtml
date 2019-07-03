@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+    <head>
+        <title>TODO supply a title</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    </head>
+    <body>
+        <script name="jquery/jquery.js" library="primefaces"></script>
+        <ui:composition template="./predlozak.xhtml">
+            <ui:define name="top">
+                <h:form>
+                    <h:commandLink value="Početna" action="pocetna.xhtml"/>
+                    <h:outputText value="          "/>
+                    <h:commandLink value="Pregled korisnika" action="korisnici.xhtml"/>
+                    <h:outputText value="          "/>
+                    <h:commandLink value="Pregled dnevnika" action="dnevnik.xhtml"/>
+                </h:form>
+            </ui:define>
+
+            <ui:define name="content">
+                <h:form id="forma">
+                    <h:panelGrid columns="3">
+                        <p:outputLabel value="Vrsta zapisa: "/>
+                        <p:inputText id="vrsta"  value="#{pregledDnevnika.vrsta}"/><br/>
+                        <p:outputLabel value="Od vremena: "/>
+                        <p:inputText id="odVremena" value="#{pregledDnevnika.odVremena}"/><br/>
+                        <p:outputLabel value="Do vremena: "/>
+                        <p:inputText id="doVremena" value="#{pregledDnevnika.doVremena}"/><br/>
+                        <p:commandButton  value="Filtriraj zapise" action="#{pregledDnevnika.dohvatiDnevnik()}" update="tablicaDnevnik message"  icon="pi pi-refresh"/>
+                    </h:panelGrid>
+                    <p:dataTable var="d" value="#{pregledDnevnika.zapisiDnevnik}" paginator="true" rows="${pregledDnevnika.brojRedovaTablice}"
+                                 paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink}"
+                                 id="tablicaDnevnik" pageLinks="20">
+
+                        <p:column headerText="Id">
+                            <h:outputText value="#{d.id}" />
+                        </p:column>
+
+                        <p:column headerText="Korisničko ime">
+                            <h:outputText value="#{d.korime}" />
+                        </p:column>
+
+                        <p:column headerText="Aplikacija">
+                            <h:outputText value="#{d.aplikacija}" />
+                        </p:column>
+
+                        <p:column headerText="Zahtjev">
+                            <h:outputText value="#{d.zahtjev}" />
+                        </p:column>
+
+                        <p:column headerText="Status">
+                            <h:outputText value="#{d.status}" />
+                        </p:column>
+
+                        <p:column headerText="Datum">
+                            <h:outputText value="#{d.datum}" />
+                        </p:column>
+
+                    </p:dataTable>
+                    <p:messages id="message"/>
+                </h:form>
+            </ui:define>
+        </ui:composition>
+    </body>
+</html>

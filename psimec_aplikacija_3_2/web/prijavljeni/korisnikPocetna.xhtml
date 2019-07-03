@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+    <f:metadata>
+        <f:viewAction action="#{odjava.autentifikacija()}" />
+    </f:metadata>
+    <f:view contentType="text/html">
+        <h:body>
+
+            <ui:composition template="../predlozak.xhtml">
+                <ui:define name="top">
+                    <h:link value="Početna" outcome="korisnikPocetna.xhtml"/>
+                    <h:outputText value="          "/>
+                    <h:link value="Pregled JMS poruka komandi" outcome="pregledJMSkomande"/>
+                    <h:outputText value="          "/>
+                    <h:link value="Pregled JMS poruka MQTT" outcome="pregledJMSmqtt.xhtml"/>
+                    <h:outputText value="          "/>
+                    <h:link value="Upravljanje poslužiteljom" outcome="upravljanjePosluziteljom.xhtml"/>
+                    <h:outputText value="          "/>
+                    <h:link value="Odjava" outcome="odjava.xhtml"/>
+                </ui:define>
+
+                <ui:define name="content">
+                    <div style="margin-left: 35%">
+                        <h2>Dobro došli na početnu stanicu treće aplikacije!</h2>
+                        <h:graphicImage value="../resources/GIFs/airplane.gif" height="300px" width="500px"/>
+                    </div>
+                </ui:define>
+            </ui:composition>
+
+        </h:body>
+    </f:view>
+</html>

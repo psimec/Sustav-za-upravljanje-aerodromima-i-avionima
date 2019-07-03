@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+    <f:metadata>
+        <f:viewAction action="#{odjava.autentifikacija()}" />
+    </f:metadata>
+    <h:body>
+        <ui:composition template="../predlozak.xhtml">
+            <ui:define name="top">
+                <h:link value="Početna" outcome="korisnikPocetna.xhtml"/>
+                <h:outputText value="          "/>
+                <h:link value="Pregled JMS poruka komandi" outcome="pregledJMSkomande"/>
+                <h:outputText value="          "/>
+                <h:link value="Pregled JMS poruka MQTT" outcome="pregledJMSmqtt.xhtml"/>
+                <h:outputText value="          "/>
+                <h:link value="Upravljanje poslužiteljom" outcome="upravljanjePosluziteljom.xhtml"/>
+                <h:outputText value="          "/>
+                <h:link value="Odjava" outcome="odjava.xhtml"/>
+            </ui:define>
+
+
+            <ui:define name="content">
+
+                <h:form id="forma">
+                    <h3 style="margin-left: 15%">Upravljanje poslužiteljom</h3>
+                    <h:panelGrid columns="7">
+                        <p:commandButton class="button-login" update="forma :msgs" value="AUTENTIFIKACIJA"  action="#{upravljanjePosluziteljom.pripremiKomadnu('AUTH')}"/>
+                        <p:commandButton class="button-login" update="forma :msgs" value="PAUZA"  action="#{upravljanjePosluziteljom.pripremiKomadnu('PAUZA')}"/>
+                        <p:commandButton class="button-login" update="forma :msgs" value="KRENI"  action="#{upravljanjePosluziteljom.pripremiKomadnu('KRENI')}"/>
+                        <p:commandButton class="button-login" update="forma :msgs" value="PASIVNO" action="#{upravljanjePosluziteljom.pripremiKomadnu('PASIVNO')}"/>
+                        <p:commandButton class="button-login" update="forma :msgs" value="AKTIVNO"  action="#{upravljanjePosluziteljom.pripremiKomadnu('AKTIVNO')}"/>
+                        <p:commandButton class="button-login" update="forma :msgs" value="STANJE"  action="#{upravljanjePosluziteljom.pripremiKomadnu('STANJE')}"/>
+                        <p:commandButton class="button-login" update="forma :msgs" value="STANI"  action="#{upravljanjePosluziteljom.pripremiKomadnu('STANI')}"/>     
+                    </h:panelGrid>
+
+                </h:form>
+                <h:form id="forma_grupa">
+                    <h3 style="margin-left: 15%">Upravljanje grupama poslužitelja</h3>
+                    <h:panelGrid columns="6">
+                        <p:commandButton class="button-login" update="forma_grupa :msgs" value="AUTENTIFIKACIJA"  action="#{upravljanjePosluziteljom.pripremiKomadnu('AUTH')}"/>
+                        <p:commandButton class="button-login" update="forma_grupa :msgs" value="DODAJ"  action="#{upravljanjePosluziteljom.pripremiKomadnuGrupa('DODAJ')}"/>
+                        <p:commandButton class="button-login" update="forma_grupa :msgs" value="PREKID"  action="#{upravljanjePosluziteljom.pripremiKomadnuGrupa('PREKID')}"/>
+                        <p:commandButton class="button-login" update="forma_grupa :msgs" value="KRENI" action="#{upravljanjePosluziteljom.pripremiKomadnuGrupa('KRENI')}"/>
+                        <p:commandButton class="button-login" update="forma_grupa :msgs" value="PAUZA"  action="#{upravljanjePosluziteljom.pripremiKomadnuGrupa('PAUZA')}"/>
+                        <p:commandButton class="button-login" update="forma_grupa :msgs" value="STANJE"  action="#{upravljanjePosluziteljom.pripremiKomadnuGrupa('STANJE')}"/>         
+                    </h:panelGrid>
+
+                </h:form>
+                <h3 style="margin-left: 15%">Status poslužitelja</h3>
+                <p:messages id="msgs" showDetail="true" />
+            </ui:define>
+        </ui:composition>
+
+    </h:body>
+</html>

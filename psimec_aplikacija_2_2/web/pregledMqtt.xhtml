@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
+    <f:view locale="#{lokalizacija.jezik}">
+        <f:metadata>
+            <f:viewAction action="#{odjava.autentifikacija()}" />
+        </f:metadata>
+        <h:body>
+
+
+            <ui:composition template="./predlozak.xhtml">
+                <ui:define name="top">
+                    <h:link value="#{p['izbornik.pocetna']}" outcome="korisnikPocetna.xhtml"/>
+                    <h:outputText value="          "/>
+                    <h:link value="#{p['izbornik.azuriranje']}" outcome="prijava.xhtml"/>
+                    <h:outputText value="          "/>
+                    <h:link value="#{p['izbornik.upravljanje']}" outcome="upravljanjeAerodromima.xhtml"/>
+                    <h:outputText value="          "/>
+                    <h:link value="#{p['izbornik.letovi']}" outcome="pregledLetova.xhtml"/>
+                    <h:outputText value="          "/>
+                    <h:link value="#{p['izbornik.odabraniletovi']}" outcome="pregledLetovaDvaAerodroma.xhtml"/>
+                    <h:outputText value="          "/>
+                    <h:link value="#{p['izbornik.dnevnik']}" outcome="dnevnik.xhtml"/>
+                    <h:outputText value="          "/>
+                    <h:link value="#{p['izbornik.mqtt']}" outcome="pregledMqtt.xhtml"/>
+                    <h:outputText value="          "/>
+                    <h:link value="#{p['izbornik.odjava']}" outcome="odjava.xhtml"/>
+                </ui:define>
+
+                <ui:define name="content">
+                    <h:form id="forma">
+                        <h:commandButton value="#{p['pregledMQTT.button.obrisi']}"
+                                         action="#{pregledMqttPoruka.obrisiPoruke()}">
+                            <f:ajax render="forma msgs" execute="forma msgs"/>
+                        </h:commandButton>
+                        <p:dataTable var="mqttPoruke" value="#{pregledMqttPoruka.poruke}" paginator="true" rows="${pregledMqttPoruka.brojRedovaTablice}"
+                                     paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink}"
+                                     id="tablicaPoruke" lazy="true" pageLinks="20" >
+                            <p:ajax event="filter" update=":msgs" />
+                            <p:column headerText="#{p['pregledMQTT.tablica.id']}">
+                                <h:outputText value="#{mqttPoruke.id}" />
+                            </p:column>
+
+                            <p:column headerText="#{p['pregledMQTT.tablica.korime']}">
+                                <h:outputText value="#{mqttPoruke.korime}" />
+                            </p:column>
+
+                            <p:column headerText="#{p['pregledMQTT.tablica.poruka']}">
+                                <h:outputText value="#{mqttPoruke.poruka}" />
+                            </p:column>
+
+                            <p:column headerText="#{p['pregledMQTT.tablica.aerodrom']}">
+                                <h:outputText value="#{mqttPoruke.aerodrom}" />
+                            </p:column>
+
+                            <p:column headerText="#{p['pregledMQTT.tablica.avion']}">
+                                <h:outputText value="#{mqttPoruke.avion}" />
+                            </p:column>
+
+                            <p:column headerText="#{p['pregledMQTT.tablica.oznaka']}">
+                                <h:outputText value="#{mqttPoruke.oznaka}" />
+                            </p:column>
+
+                            <p:column headerText="#{p['pregledMQTT.tablica.datum']}">
+                                <h:outputText value="#{mqttPoruke.stored}"/> >
+                            </p:column>
+
+                        </p:dataTable>
+                    </h:form>
+                    <p:messages id="msgs" showDetail="true" />
+                </ui:define>
+            </ui:composition>
+        </h:body>
+    </f:view>
+</html>

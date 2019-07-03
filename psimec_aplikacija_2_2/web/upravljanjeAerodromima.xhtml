@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
+    <f:view locale="#{lokalizacija.jezik}">
+        <f:metadata>
+            <f:viewAction action="#{odjava.autentifikacija()}" />
+        </f:metadata>
+        <h:body>
+
+            <ui:composition template="./predlozak.xhtml">
+
+                <ui:define name="top">
+                    <h:link value="#{p['izbornik.pocetna']}" outcome="korisnikPocetna.xhtml"/>
+                    <h:outputText value="          "/>
+                    <h:link value="#{p['izbornik.azuriranje']}" outcome="prijava.xhtml"/>
+                    <h:outputText value="          "/>
+                    <h:link value="#{p['izbornik.upravljanje']}" outcome="upravljanjeAerodromima.xhtml"/>
+                    <h:outputText value="          "/>
+                    <h:link value="#{p['izbornik.letovi']}" outcome="pregledLetova.xhtml"/>
+                    <h:outputText value="          "/>
+                    <h:link value="#{p['izbornik.odabraniletovi']}" outcome="pregledLetovaDvaAerodroma.xhtml"/>
+                    <h:outputText value="          "/>
+                    <h:link value="#{p['izbornik.dnevnik']}" outcome="dnevnik.xhtml"/>
+                    <h:outputText value="          "/>
+                    <h:link value="#{p['izbornik.mqtt']}" outcome="pregledMqtt.xhtml"/>
+                    <h:outputText value="          "/>
+                    <h:link value="#{p['izbornik.odjava']}" outcome="odjava.xhtml"/>
+                </ui:define>
+
+                <ui:define name="content">
+                    <div style="margin-left: 47%">
+                        <h2>Vlastiti aerodromi</h2>
+                    </div>
+                    <h:form id="forma">
+                        <h:panelGrid columns="7">
+                            <p:inputText value="#{upravljanjeAerodromima.noviAerodromIcao}" id="noviIcao"  p:placeholder="#{p['upravljanjeAerodromima.unos.icao']}"/><br/>
+                            <h:commandButton value="#{p['upravljanjeAerodromima.button.dodaj']}"
+                                             action="#{upravljanjeAerodromima.dodajAerodrom()}">
+                                <f:ajax render="forma msgs" execute="forma msgs"/>
+                            </h:commandButton>
+                            <h:commandButton value="#{p['upravljanjeAerodromima.button.mqtt']}"
+                                             action="#{upravljanjeAerodromima.prijemPoruka()}">
+                                <f:ajax render="forma msgs" execute="forma msgs"/>
+                            </h:commandButton><br/>
+                            <h:commandButton value="#{p['upravljanjeAerodromima.button.mqtt.odjava']}"
+                                             action="#{upravljanjeAerodromima.odjavaSPrijemaPoruka()}">
+                                <f:ajax render="forma msgs" execute="forma msgs"/>
+                            </h:commandButton><br/>
+                        </h:panelGrid>
+                        <p:dataTable var="a" value="#{upravljanjeAerodromima.aerodromi}" paginator="true" rows="${upravljanjeAerodromima.brojRedovaTablice}"
+                                     paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink}"
+                                     id="tablicaAerodromi" lazy="true" pageLinks="20">
+                            <p:ajax event="filter" update=":msgs" />
+                            <p:column headerText="#{p['upravljanjeAerodromima.tablica.icao']}">
+                                <h:outputText value="#{a.icao}" />
+                            </p:column>
+
+                            <p:column headerText="#{p['upravljanjeAerodromima.tablica.naziv']}">
+                                <h:outputText value="#{a.naziv}" />
+                            </p:column>
+
+                            <p:column headerText="#{p['upravljanjeAerodromima.tablica.drzava']}">
+                                <h:outputText value="#{a.drzava}" />
+                            </p:column>
+
+                            <p:column headerText="#{p['upravljanjeAerodromima.tablica.akcije']}">
+                                <h:commandButton value="#{p['upravljanjeAerodromima.button.obrisi']}" 
+                                                 action="#{upravljanjeAerodromima.brisiAerodrom(a.icao)}">
+                                    <f:ajax render="forma msgs" execute="forma msgs"/>
+                                </h:commandButton>
+                                <h:commandButton value="#{p['upravljanjeAerodromima.button.aktiviraj']}" 
+                                                 action="#{upravljanjeAerodromima.aktivirajAerodrom(a.icao)}">
+                                    <f:ajax render="forma msgs" execute="forma msgs"/>
+                                </h:commandButton>
+                                <h:commandButton value="#{p['upravljanjeAerodromima.button.blokiraj']}" 
+                                                 action="#{upravljanjeAerodromima.blokirajAerodrom(a.icao)}">
+                                    <f:ajax render="forma msgs" execute="forma msgs"/>
+                                </h:commandButton>
+                                <h:commandButton value="#{p['upravljanjeAerodromima.button.status']}" 
+                                                 action="#{upravljanjeAerodromima.stanjeAerodroma(a.icao)}">
+                                    <f:ajax render="forma msgs" execute="forma msgs"/>
+                                </h:commandButton>
+                                <h:commandButton value="#{p['upravljanjeAerodromima.button.prikazi']}"
+                                                 action="#{upravljanjeAerodromima.prikaziAerodrom(a.icao, a.naziv, a.lokacija.latitude, a.lokacija.longitude)}">
+                                    <f:ajax render="forma msgs mapa" execute="forma msgs mapa"/>
+                                </h:commandButton><br/>
+                            </p:column>
+                        </p:dataTable><br/><br/>
+
+                    </h:form>
+                    <p:messages id="msgs" showDetail="true" />
+                    <p:gmap id="mapa" center="#{upravljanjeAerodromima.lat}, #{upravljanjeAerodromima.lon}" zoom="13" type="HYBRID" style="width:100%;height:400px" model="#{upravljanjeAerodromima.simpleModel}" /> 
+                </ui:define>
+            </ui:composition>
+        </h:body>
+    </f:view>
+</html>

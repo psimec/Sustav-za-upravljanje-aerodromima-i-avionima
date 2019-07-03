@@ -1,0 +1,32 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui">
+    <h:body>
+        <ui:composition template="../predlozak.xhtml">
+            <ui:define name="top">
+                <div style="margin-left: 48%;">
+                    <h2><b>Prijava</b></h2>
+                </div>
+            </ui:define>
+            <ui:define name="content">
+
+                <div class="login-page">
+                    <div class="form">
+                        <h:form id="forma" class="login-form">
+                            <p:inputText value="#{obradaPrijave.korime}" id="korime"  p:placeholder="korisnicko ime"/><br/>
+                            <p:inputText type="password" value="#{obradaPrijave.lozinka}" id="lozinka" p:placeholder="lozinka"/><br/>
+                            <p:commandButton class="button-login" update="forma :msgs korime lozinka" value="PRIJAVA"  action="#{obradaPrijave.prijava()}"/>
+                            <br/><br/>
+                        </h:form>
+                    </div>
+                    <p:growl id="msgs" showDetail="true" life="1750" />
+                </div>
+            </ui:define>
+        </ui:composition>
+        <br />
+    </h:body>
+</html>
+

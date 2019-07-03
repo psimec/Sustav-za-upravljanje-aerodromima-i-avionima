@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui">
+    <head>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    </head>
+    <body>
+        <ui:composition template="./predlozak.xhtml">
+            <ui:define name="top">
+                <h:form>
+                    <h:commandLink value="Početna" action="pocetna.xhtml"/>
+                    <h:outputText value="          "/>
+                    <h:commandLink value="Pregled korisnika" action="korisnici.xhtml"/>
+                    <h:outputText value="          "/>
+                    <h:commandLink value="Pregled dnevnika" action="dnevnik.xhtml"/>
+                </h:form>
+            </ui:define>
+
+
+            <ui:define name="content">
+                <p:layoutUnit position="center">
+                    <h:form id="forma">
+                        <p:dataTable var="korisnik" value="#{pregledKorisnika.korisnici}" paginator="true" rows="${pregledKorisnika.brojRedovaTablice}"
+                                     paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink}"
+                                     id="tablicaKorisnici" lazy="true" pageLinks="20" >
+                            <p:ajax event="filter" update=":msgs" />
+                            <p:column headerText="Korisničko ime">
+                                <h:outputText value="#{korisnik.korime}" />
+                            </p:column>
+
+                            <p:column headerText="Lozinka">
+                                <h:outputText value="#{korisnik.lozinka}" />
+                            </p:column>
+
+                            <p:column headerText="Ime">
+                                <h:outputText value="#{korisnik.ime}" />
+                            </p:column>
+
+                            <p:column headerText="Prezime">
+                                <h:outputText value="#{korisnik.prezime}" />
+                            </p:column>
+
+                            <p:column headerText="Email">
+                                <h:outputText value="#{korisnik.email}" />
+                            </p:column>
+
+                        </p:dataTable>
+
+
+
+                    </h:form>
+                    <p:growl id="msgs" showDetail="true" life="1250" />
+                </p:layoutUnit>
+            </ui:define>
+        </ui:composition>
+    </body>
+</html>
